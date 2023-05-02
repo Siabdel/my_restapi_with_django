@@ -4,6 +4,6 @@ from .models import BlogApi
 
 class PostApiSerializer(serializers.ModelSerializer):
     class Meta :
-        fields = ('id', 'title', 'body', 'created_at', )
+        fields = ('id', 'title', 'body', 'author', 'created_at', )
         model = BlogApi
     
