@@ -20,13 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4u1o_hw=q6sfkgzkycpv1qdjvlt&7^3-0j2d#-d-ny%@^scsy!'
+SECRET_KEY = 'Bismi_ALLAH-4u1o_hw=q6sfkgzkycpv1qdjvlt&7^3-0j2d#-d-ny%@^scsy!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '192.168.*',]
 
+SITE_ID = 1
+# email backend 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # new
 
 # Application definition
 
@@ -37,8 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Django Rest Framework - 3 rd party apps
+    'django.contrib.sites',
+    
+    # D- 3 rd party apps Django Rest Framework 
     'rest_framework', # new
+    'rest_framework.authtoken', # new
+    # User Authentication
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # DRF auth
+    'rest_auth', # new
+    
     # local app 
     'blog.apps.BlogConfig',
 ]
@@ -132,5 +145,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' : [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_AUTHENTIFICATION_CLASS' : [
+        'rest_famework.authentification.SessionAuthentification', 
+        'rest_framework.authentification.BasicAuthentification',
+    ] 
     
 }
