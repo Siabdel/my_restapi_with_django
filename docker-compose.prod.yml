@@ -12,7 +12,7 @@ services:
     ports:
       - 8500:8000
     env_file:
-      - ./app/blogapi/.env.prod
+      - ./.env.prod
     depends_on:
       - db
   db:
@@ -24,7 +24,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./app/blogapi/.env.prod.db
+      - ./.env.prod.db
  
   nginx:
     container_name: blogrestapi_nginx
@@ -37,7 +37,23 @@ services:
     depends_on:
       - web
 
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+        - pgadmin:/home/app/.pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-5051}:80"
+    
+    restart: always
+
 volumes:
   postgres_data:
   static_volume:
   media_volume:
+  pgadmin:

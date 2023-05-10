@@ -21,7 +21,10 @@ environ.Env.read_env()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR = repertoire racine au meme niveau manage.py
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Directory project au meme niveau de settings.py
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -114,7 +117,6 @@ DATABASES = {
         #'ENGINE': os.environ.get ( "SQL_ENGINE" , "django.db.backends.sqlite3" ),
         #'NAME': BASE_DIR / 'db.sqlite3',
         "ENGINE": env( "ENGINE"),
-
         "NAME": env("DATABASE_NAME"),
         "USER": env("DATABASE_USER"),
         "PASSWORD": env("PASSWORD"), ## os.path.join( BASE_DIR , "db.sqlite3" )),
@@ -154,11 +156,31 @@ USE_L10N = True
 
 USE_TZ = True
 
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static" )
+# Additional locations of static files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'staticfiles'),
+]
+# ManifestStaticFilesStorage is recommended in production, to prevent outdated
+# JavaScript / CSS assets being served from cache (e.g. after a Wagtail upgrade).
+# See https://docs.djangoproject.com/en/4.0/ref/contrib/staticfiles/#manifeststaticfilesstorage
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
