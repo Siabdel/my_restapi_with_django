@@ -10,4 +10,6 @@
 # sudo -u postgres psql -c "SELECT version();"
 # sudo -u postgres psql
 
-#su - postgres -c "psql -U postgres -p 5532 -f /src/sql/dbcreate.sql;"
+## su - postgres -c "psql -U postgres -p 5532 -f /src/sql/dbcreate.sql;"
+su - postgres -c "psql -U postgres  -f /src/sql/dbcreate.sql;"
+

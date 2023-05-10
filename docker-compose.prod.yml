@@ -6,7 +6,7 @@ services:
     build: 
       context: ./app
       dockerfile: Dockerfile.prod
-    command: gunicorn dock_blogrestapi.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn blogapi.wsgi:application --bind 0.0.0.0:8000
     volumes: 
       - static_volume:/home/app/web/staticfiles
     ports:
@@ -18,10 +18,13 @@ services:
   db:
     container_name: blogrestapi_db
     image: postgres:13.0-alpine
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env.prod.db
+      - ./app/blogapi/.env.prod.db
  
   nginx:
     container_name: blogrestapi_nginx
