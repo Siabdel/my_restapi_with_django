@@ -51,7 +51,7 @@ export default {
     // chercher une cle
   },
   created(){
-    //this.loadPosts();
+    this.loadPosts();
   }
 }
 </script>

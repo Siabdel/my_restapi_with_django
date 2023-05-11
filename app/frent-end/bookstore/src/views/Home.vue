@@ -2,6 +2,7 @@
   <div class="jumbotron">
     <img alt="Vue logo" src="../assets/logo.png">
     <hr>
+    <h3>CartPostList</h3>
     <CartPostList msg="Welcome to Your Vue.js Post Store"/>
   </div>
 </template>
@@ -20,7 +21,6 @@
         },
         components : {CartPostList, },
         data: () => ({
-            contactes : [],
             searchBy : true,
         }),
         methods:{

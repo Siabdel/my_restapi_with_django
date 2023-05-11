@@ -1,8 +1,8 @@
 <template>
     <div>
-        <h3> Posts Liste</h3>
+        <h3> {{msg}}</h3>
         <div>
-            <button @click.prevent="import_data"> Importer les books </button>
+            <button @click.prevent="import_data"> Importer les posts </button>
         </div>
         <div  v-if="isLoading" class="spinner">
             <img src="" alt="">
@@ -11,11 +11,11 @@
             </div>
         </div>
         <ul>
-            <li v-for="(book, index) in books" :key="index" class="list-unstyled"> 
+            <li v-for="(post, index) in posts" :key="index" class="list-unstyled"> 
             <div class="row">
                 <div class="col-md-3">
                     <div class="card card-body">
-                    <img :src="(book.volumeInfo.imageLinks.thumbnail)?book.volumeInfo.imageLinks.thumbnail:'#'"  />
+                    <img :src="(post.thumbnail)?post.thumbnail:'#'"  />
                     </div>
                         
                 </div>
@@ -23,20 +23,20 @@
                     <div class="card">
                         <div class="card-header">
                             <router-link 
-                                :to="{'name': 'book-details', 'params': {'id' : book.id }}"> 
-                                {{ book.volumeInfo.publisher}} </router-link>
+                                :to="{'name': 'post-details', 'params': {'id' : post.id }}"> 
+                                {{ post.author}} </router-link>
                         </div>
                         <div class="card-body">
                             <router-link 
-                                :to="{'name': 'book-details', 'params': {'id' : book.id }}"> 
-                                <h4 class="card-title">{{ book.volumeInfo.title }}</h4>
+                                :to="{'name': 'post-details', 'params': {'id' : post.id }}"> 
+                                <h4 class="card-title">{{ post.title }}</h4>
                             </router-link>
-                            <p> {{ book.volumeInfo.publishedDate}}</p> 
-                            <p> {{ (book.volumeInfo.description)?book.volumeInfo.description.slice(1, 300):''}} </p>
+                            <p> {{ post.publishedDate}}</p> 
+                            <p> {{ (post.body)?post.body.slice(1, 300):''}} </p>
                         </div>
                         <div class="card-footer">
                             <p> <span 
-                                v-for="createur, index in book.volumeInfo.authors" :key="index">
+                                v-for="createur, index in post.authors" :key="index">
                                 {{createur}} , 
                                 </span> </p> 
                         </div>
@@ -66,13 +66,10 @@
             console.log("Mon Contacte ici")
         },
         computed:{
-            ...mapState([ 'isLoading', 'books']),
+            ...mapState([ 'isLoading', 'posts']),
         },
         methods: {
             ...mapActions([ 'addPosts', ]),
-            import_data(){
-                this.addPosts(this.books)
-            }
         }
 
     }
