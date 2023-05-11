@@ -42,7 +42,7 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
-RUN chown -R django:django /home/app && chmod -R 755 /home/app
+RUN chown  django:django /home/app && chmod 755 /home/app
 #
 USER django
 
