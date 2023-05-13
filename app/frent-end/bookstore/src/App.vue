@@ -11,6 +11,7 @@
                   <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                   <li class="nav-item"><router-link class="nav-link" to="/"> Liste des articles </router-link> </li>
                   <li class="nav-item"><router-link class="nav-link" to="/login"> Login </router-link> </li>
+                  <li class="nav-item"><router-link class="nav-link" to="/add"> Add Post </router-link> </li>
                   <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
                       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">

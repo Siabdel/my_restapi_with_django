@@ -32,10 +32,11 @@ urlpatterns = [
 
 ## Token  
 urlpatterns += [ 
-     path('token/', jwt_views.TokenObtainPairView.as_view(), 
+     path('token/create/', jwt_views.TokenObtainPairView.as_view(), 
           name ='token_obtain_pair'), 
      path('token/refresh/', jwt_views.TokenRefreshView.as_view(), 
-          name =' token_refresh') 
+          name =' token_refresh'),
+     path('token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_verify') 
 ]
 
 if settings.DEBUG:

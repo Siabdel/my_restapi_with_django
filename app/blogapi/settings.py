@@ -116,12 +116,13 @@ DATABASES = {
     "default" : {
         #'ENGINE': os.environ.get ( "SQL_ENGINE" , "django.db.backends.sqlite3" ),
         #'NAME': BASE_DIR / 'db.sqlite3',
-        "ENGINE": env( "ENGINE"),
+        #"ENGINE": env( "ENGINE"),
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": env("DATABASE_NAME"),
         "USER": env("DATABASE_USER"),
-        "PASSWORD": env("PASSWORD"), ## os.path.join( BASE_DIR , "db.sqlite3" )),
+        "PASSWORD": env("PASSWORD"), 
         "HOST" : env( "HOST"),
-        "PORT" : env( "PORT"),
+        # "PORT" : env( "PORT"),
     }
 }
 

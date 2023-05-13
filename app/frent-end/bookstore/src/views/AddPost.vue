@@ -10,31 +10,18 @@
             <li v-for="(error, index) in errors"  :key=index class="text-warning"> {{ error }} !!</li>
           </ul>
         </div>
-        <form method="post" @submit.prevent="onLogin" >
+        <form method="post" @submit.prevent="savePost" >
           <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
 
-          <input type="user.name" v-model="user.name" placeholder="Name" 
+          <input type="post.title" v-model="post.title" placeholder="title" 
             required class="form-control input-lg"   />
           
-          <input type="user.password" v-model="user.password" class="form-control input-lg"  
-            placeholder="Password" required="" />
-          
-          
-          <div class="pwstrength_viewport_progress"></div>
-          
+          <textarea  v-model="post.body" class="form-control input-lg"  
+            placeholder="body" required="" /> 
           
           <button type="submit" name="go" 
-          class="btn btn-lg btn-primary btn-block">Se conneter</button>
-          <div>
-            <a href="#">Create account</a> or <a href="#">reset password</a>
-          </div>
-          
-          
+          class="btn btn-lg btn-primary btn-block">Add</button>
         </form>
-        
-        <div class="form-links">
-          <a href="#">www.website.com</a>
-        </div>
       </section>  
       </div>
       
@@ -48,13 +35,13 @@ import axios from "axios";
 var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 export default ({
-    name : "VLogin",
+    name : "VAddPost",
     data : () => ({
         message : "",
-        user :{
-          name : null,
+        post :{
+          title : null,
           email : null,
-          password: null,
+          body: null,
         },
         errors : [], 
         showForm : true,
@@ -62,20 +49,10 @@ export default ({
         loggedIn : false,
     }),
     methods :{
-        
-        onLogin(){
-          if( this.isPassword(this.user.name )){
-            this.apiLogin()
-          }else{
-            console.log("votre email  n'est pas valide !!!")
-            this.errors = "votre email  n'est pas valide !!!"
-          }
-        },
-
-        apiLogin(){
+        savePost(){
             //validate saisie email, passwd 
-            //authAPI.login(this.email, this.password)
-            let url = 'http://localhost:8000/api/v1/rest-auth/login/'
+            //authAPI.login(this.email, this.body)
+            let url = 'http://localhost:8000/api/v1/blog/'
             let headers = {
                     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8; multipart/form-data',
                     //'withCredentials': true,
@@ -88,21 +65,21 @@ export default ({
             const data = axios.post(url, { 
                   headers : headers,
                   method : 'POST',
-                  body : JSON.stringify(this.user)
+                  body : JSON.stringify(this.post)
 
             })
             **/
             const data = axios.post(url, 
             {
-              name : this.user.name,
-              password:this.user.password,
+              title : this.post.title,
+              body:this.post.body,
             },
             )
             .then(res => res.data)
             .then( data =>  {
                 localStorage.getItem('token', data)
                 this.$router.push("/")
-                console.log("Connected !!" + this.user.name + " et " + this.user.password)
+                console.log("Connected !!" + this.post.title + " et " + this.post.body)
                 this.errors = []
             })
             .catch( (error) => {
@@ -126,9 +103,9 @@ export default ({
         },
 
         isPassword(passwd){
-          if(!this.user.password || this.user.password.length < 5){
-            this.errors.push("password non valide nbre car < 5 !!") 
-            console.log("password non valide nbre car < 5 !!" + passwd)
+          if(!this.post.body || this.post.body.length < 5){
+            this.errors.push("body non valide nbre car < 5 !!") 
+            console.log("body non valide nbre car < 5 !!" + passwd)
             return false
           }else {
             return true

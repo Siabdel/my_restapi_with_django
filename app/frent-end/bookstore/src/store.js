@@ -39,7 +39,7 @@ export default new Vuex.Store({
             //let url = `https://www.googleapis.com/posts/v1/volumes?q=search+vue.js&key=AIzaSyDCdbg3vdrRVokCr6E2-ADtbWT80NqMV_0`
             //let url = 'http://atlass.fr:93/apipro/directories/'
             //let url = 'https://randomuser.me/api/?nat=fr,Fr&results=10&seed=abc'
-            let url = 'http://localhost:8600/api/v1/'
+            let url = 'http://localhost:8000/api/v1/'
             const access_token =  'd3340738633cdbfb8a74ef96423008f01c425e76'
             // save token
             // Initialize the access & refresh token in localstorage.      
