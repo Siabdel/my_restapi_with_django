@@ -1,9 +1,8 @@
 <template>
     <div>
         <h3> {{msg}}</h3>
-        <div>
-            <button @click.prevent="import_data"> Importer les posts </button>
-        </div>
+        <a href="localhost:8080" class="btn btn-warning">
+        <router-link class="nav-link" to="/add"> Ajouter article </router-link></a>|
         <div  v-if="isLoading" class="spinner">
             <img src="" alt="">
             <div class="spinner-border text-danger" role="status">
@@ -13,7 +12,7 @@
         <ul>
             <li v-for="(post, index) in posts" :key="index" class="list-unstyled"> 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-1">
                     <div class="card card-body">
                     <img :src="(post.thumbnail)?post.thumbnail:'#'"  />
                     </div>
@@ -24,7 +23,7 @@
                         <div class="card-header">
                             <router-link 
                                 :to="{'name': 'post-details', 'params': {'id' : post.id }}"> 
-                                {{ post.author}} </router-link>
+                                {{ post.id}} </router-link>
                         </div>
                         <div class="card-body">
                             <router-link 
@@ -42,8 +41,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-warning btn-large">Ajouter au panier</button>
+                <div class="col-md-4">
+                    <button class="btn btn-warning">
+                        <a href="#" @click.prevent="getPost(post.id)"> Update </a>
+                    </button>
+                    <button class="btn btn-warning">
+                        <a href="#" @click.prevent="delPost(post.id)"> Delete </a>
+                    </button>
                 </div>
             </div> 
             <hr/>
@@ -54,7 +58,7 @@
 
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css';
-    import { mapState, mapActions} from "vuex" 
+    import { mapState, mapActions, mapMutations} from "vuex" 
 
     export default {
         name : "CartPostList",
@@ -69,7 +73,19 @@
             ...mapState([ 'isLoading', 'posts']),
         },
         methods: {
-            ...mapActions([ 'addPosts', ]),
+            ...mapMutations(['setSelectedPost', ]),
+            ...mapActions(['deletePost', ]),
+            // suppression post
+            delPost(postId){
+                this.deletePost(postId);
+                this.$router.push("/")
+
+            },
+            getPost(post_id){
+                console.log("getPost : selected post = " + post_id)
+                this.setSelectedPost(post_id)
+                this.$router.push("/get/" + post_id)
+            }
         }
 
     }

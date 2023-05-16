@@ -1,12 +1,13 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 import Home from './views/Home'
 import Login from './views/Login'
 import AddPost from './views/AddPost'
+import Post from './views/Post'
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-const router =  new Router({
+export default new VueRouter({
     mode : 'history',
     routes : [
         {   'path': '/', 
@@ -21,7 +22,9 @@ const router =  new Router({
             'name' : 'AddPost',
             'component'  : AddPost,
         },
+        {   'path': '/get/:postId', 
+            'name' : 'UPost',
+            'component' : Post,
+        },
     ]
 });
-
-export default router;

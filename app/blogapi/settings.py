@@ -198,7 +198,7 @@ REST_FRAMEWORK = {
         'rest_famework.authentification.SessionAuthentification', 
         'rest_framework.authentification.BasicAuthentification',
         'rest_framework_simplejwt.authentication.JWTAuthentication', 
-         'rest_framework.authtoken',
+        'rest_framework.authtoken',
     ] 
     
 }

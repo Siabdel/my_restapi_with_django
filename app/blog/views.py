@@ -14,7 +14,7 @@ class PostList(generics.ListCreateAPIView):
     queryset = BlogApi.objects.all()
     
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthorOrReadOnly, )
+    #permission_classes = (IsAuthorOrReadOnly, )
     serializer_class = PostApiSerializer
     queryset = BlogApi.objects.all()
     

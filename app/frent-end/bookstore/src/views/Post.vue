@@ -1,8 +1,7 @@
 <template>
   <div class="row" id="pwd-container">
-    <div class="col-md-4"> ADD .... POST ..</div>
-    
     <div class="col-md-8">
+      <h2> {{ getPost.title }}</h2>
       <section class="login-form">
         <div v-if="errors.length" class="breadcrumb bg-white">
           <b>Please correct the following error(s):</b>
@@ -10,15 +9,15 @@
             <li v-for="(error, index) in errors"  :key=index class="text-warning"> {{ error }} !!</li>
           </ul>
         </div>
-        <form method="post" @submit.prevent="ajoutPost(post)" >
+        <form method="post" @submit.prevent="updatePost(post)" >
           <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
 
-          <input type="number" v-model="post.author" placeholder="author" 
+          <input type="number" v-model="getPost.author" placeholder="author" 
             required class="form-control input-lg"   />
-          <input type="post.title" v-model="post.title" placeholder="title" 
+          <input type="post.title" v-model="getPost.title" placeholder="title" 
             required class="form-control input-lg"   />
           
-          <textarea  v-model="post.body" class="form-control input-lg"  
+          <textarea  v-model="getPost.body" class="form-control input-lg"  
             placeholder="body" required="" /> 
           
           <button type="submit" name="go" 
@@ -30,34 +29,34 @@
 </template>
 
 <script>
-import { mapActions, mapState, } from "vuex"
+import { mapActions, mapGetters, mapState} from "vuex"
 
 // Regular expression from W3C HTML5.2 input specification:
 var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 export default ({
-    name : "VAddPost",
+    name : "VPost",
     data : () => ({
         message : "",
-        post :{
-          title : null,
-          email : null,
-          body: null,
-        },
         errors : [], 
         showForm : true,
         isSaved : false,
         loggedIn : false,
     }),
+    computed:{
+      ...mapGetters(["getPost", "getPostSelected"]),
+      ...mapState(["selectedPostId", "post", ]),
+
+    },
+    created(){
+      this.loadPost(this.selectedPostId);
+      console.log("load Post ...", this.post)
+    },
+    //Methods
     methods :{
 
-      ...mapActions(["addPost", ]),
-      ...mapState(['PostAdded']),
-      //--
-      ajoutPost(post){
-        this.addPost(post)
-        this.$router.go(-1);
-      },
+      ...mapActions(["updatePost","loadPost" ]),
+
       // check for valid email adress
       isEmail(value) {
         if (emailRegExp.test(value)){
