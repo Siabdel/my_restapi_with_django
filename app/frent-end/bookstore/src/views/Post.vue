@@ -1,27 +1,33 @@
 <template>
-  <div class="row" id="pwd-container">
-    <div class="col-md-8">
-      <h2> {{ getPost.title }}</h2>
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h2> {{ getPost.title }} {{ selectedPostId }} .. </h2>
       <section class="login-form">
-        <div v-if="errors.length" class="breadcrumb bg-white">
+        <div v-if="errors.length > 0" class="breadcrumb bg-white">
           <b>Please correct the following error(s):</b>
           <ul>
             <li v-for="(error, index) in errors"  :key=index class="text-warning"> {{ error }} !!</li>
           </ul>
         </div>
-        <form method="post" @submit.prevent="updatePost(post)" >
+        <form v-if="showForm" method="post" @submit.prevent="savePost(getPost)" >
           <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
+          <div class="form-control"> 
+            Author : <input type="number" v-model="getPost.author" placeholder="author" 
+            required class="form-control input-lg"   />
+          </div>
+          <div class="form-control">
+            Title :
+            <input type="post.title" v-model="getPost.title" placeholder="title" 
+            required class="form-control input-lg"   />
+          </div>
 
-          <input type="number" v-model="getPost.author" placeholder="author" 
-            required class="form-control input-lg"   />
-          <input type="post.title" v-model="getPost.title" placeholder="title" 
-            required class="form-control input-lg"   />
-          
-          <textarea  v-model="getPost.body" class="form-control input-lg"  
+          <div class="form-control">
+            Description  :<textarea  v-model="getPost.body" rows="10" class="form-control input-lg"  
             placeholder="body" required="" /> 
+          </div>
           
           <button type="submit" name="go" 
-          class="btn btn-lg btn-primary btn-block">Add</button>
+          class="btn btn-lg btn-primary btn-block">Enregistrer</button>
         </form>
       </section>  
     </div>
@@ -29,57 +35,77 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState} from "vuex"
+import { mapActions, mapGetters, mapMutations, mapState} from "vuex"
 
-// Regular expression from W3C HTML5.2 input specification:
-var emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 export default ({
     name : "VPost",
+    beforeRouteLeave: (to, from, next) => {
+     console.log("route beforeEnter ....");
+     //this.url = to.path;
+     next();
+    },
     data : () => ({
         message : "",
+        postId : "",
         errors : [], 
         showForm : true,
         isSaved : false,
         loggedIn : false,
     }),
     computed:{
-      ...mapGetters(["getPost", "getPostSelected"]),
+      ...mapGetters(["getPost", "getSelectedPostId", ]),
       ...mapState(["selectedPostId", "post", ]),
 
     },
     created(){
-      this.loadPost(this.selectedPostId);
-      console.log("load Post ...", this.post)
+      this.postId = this.$route.params.postId
+      //-- toto
+      if(this.selectedPostId){
+        this.loadPost(this.selectedPostId)
+        // si load post reussi
+        if( this.getPost.title ){
+          this.setSelectedPost(this.postId)
+          //this.loadPost(this.selectedPostId);
+          this.showForm = true
+          // charger le poste a l'ecran
+          console.log("load Post ...", this.postId)
+          console.log("post title ...", this.post.title)
+          // affichage
+        }
+      }else{
+          console.log("Article non trouvé !")
+          this.errors.push("Article non trouvé !")
+          this.showForm = false
+        }
     },
     //Methods
     methods :{
+      ...mapMutations(["setSelectedPost",]),
+      ...mapActions(["addPost", "updatePost","loadPost", ]),
 
-      ...mapActions(["updatePost","loadPost" ]),
-
-      // check for valid email adress
-      isEmail(value) {
-        if (emailRegExp.test(value)){
-          return true
-        }else {
-              this.errors.push("Vote email n'est pas valide ")
+      savePost(post){
+        // save post
+        if(this.postId && this.validateForm()){
+          this.updatePost(post)
+          console.log("il sagit dune mise a jour ...", post.id)
         }
+          // return to home
+          this.$router.push("/")
       },
 
-      isPassword(passwd){
-        if(!this.post.body || this.post.body.length < 5){
-          this.errors.push("body non valide nbre car < 5 !!") 
-          console.log("body non valide nbre car < 5 !!" + passwd)
+      // check for valid email adress
+
+      validateForm(){
+        if(!this.getPost.title || this.getPost.body.length < 1){
+          this.errors.push("form non valide ") 
+          console.log("form not valid !!" )
           return false
         }else {
           return true
         }
       },
       // watching nested property
-      validate_email(event) {
-        console.log("computed validate email" + event.value )
-        return this.isEmail("email", event.value) 
-      },
     },
 })
 </script>

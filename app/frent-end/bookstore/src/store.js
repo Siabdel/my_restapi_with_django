@@ -15,12 +15,12 @@ export default new Vuex.Store({
     },
 
     getters : {
-        getPostSelected : state => {
-            state.post
-            console.log("getters : getPostSelected" + state.post)
-        },
         //get post
-        getPost : state => state.post
+        getPost : state => state.post,
+        //get posts
+        getPosts : state => state.posts,
+        // get selected postId
+        getSelectedPostId : state => state.selectedPostId,
 
     },
 
@@ -61,20 +61,18 @@ export default new Vuex.Store({
             localStorage.clear();
             localStorage.setItem('token', access_token)
             //localStorage.setItem('refresh_token', data.refresh);
+            console.log("header = ", headers)
 
             commit("setIsLoading", true)
             // fetch 
-            let data = axios.get(url,
-                { 
-                  headers : headers,
-                })
+            let data = axios.get(url,)
             .then(response => response.data)
             .then(data => {
                     commit("setIsLoading", false)
                     commit("setPosts", { posts : data })
                     // save token 
                     localStorage.setItem('token', access_token)
-                    console.log("  posts loaded ..." +  data)
+                    console.log("  posts loaded and commited ..." +  data.length)
                     }
             )
             .catch(error => {
@@ -105,14 +103,12 @@ export default new Vuex.Store({
             }
             console.log(headers)
             //Axios
-            commit("setIsLoading", true)
             await axios.post(url, post)
             .then( () =>  {
                 console.log("Add data :" + post.title)
                 commit("setPostAdded", true )
             })
             .catch( (error) => {
-                this.errors = []
                 console.log("Api Erreur add post !!" + post.body + error)
             });
             // Initialize the access & refresh token in localstorage.      
@@ -127,10 +123,10 @@ export default new Vuex.Store({
             await axios.delete(url, post_id)
             .then( () =>  {
                 console.log("Delete post !!" )
-                this.errors = []
+                commit("setIsLoading", false)
             })
             .catch( (error) => {
-                this.errors = []
+                commit("setIsLoading", false)
                 console.log("Api Erreur post not deleted!!" + error)
             });
             // Initialize the access & refresh token in localstorage.      
@@ -143,9 +139,11 @@ export default new Vuex.Store({
             await axios.put(url, post)
             .then( () =>  {
                 console.log("post updated !!" )
+                commit("setIsLoading", false)
             })
             .catch( (error) => {
                 console.log("Api Erreur not updated!!" + error)
+                commit("setIsLoading", false)
             });
             // Initialize the access & refresh token in localstorage.      
         },
@@ -157,12 +155,14 @@ export default new Vuex.Store({
             .then(response => response.data) 
             .then(post => {
                 commit("setSelectedPost", post.id)
-                commit("setPost", {post})
-                console.log("post title get == " +  post.title)
+                commit("setPost", { post: post })
+                commit("setIsLoading", false)
+                //console.log("in loadPost ", post.title)
             })
             .catch( (error) => {
                 console.log("Api Erreur not load ...!!" + error)
                 console.log("Api Erreur not load ...!!" + post_id)
+                commit("setIsLoading", false)
             });
             // Initialize the access & refresh token in localstorage.      
         }

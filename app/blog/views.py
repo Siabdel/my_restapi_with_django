@@ -11,7 +11,7 @@ from .permissions import IsAuthorOrReadOnly
 
 class PostList(generics.ListCreateAPIView):
     serializer_class = PostApiSerializer
-    queryset = BlogApi.objects.all()
+    queryset = BlogApi.objects.all().order_by('-created_at')
     
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     #permission_classes = (IsAuthorOrReadOnly, )

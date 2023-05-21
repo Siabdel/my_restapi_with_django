@@ -1,8 +1,9 @@
 <template>
-    <div>
-        <h3> {{msg}}</h3>
-        <a href="localhost:8080" class="btn btn-warning">
-        <router-link class="nav-link" to="/add"> Ajouter article </router-link></a>|
+    <div class="container">
+        <div class="header">
+            <a href="localhost:8080" class="btn btn-warning">
+            <router-link class="nav-link" to="/add"> Ajouter article </router-link></a>|
+        </div>
         <div  v-if="isLoading" class="spinner">
             <img src="" alt="">
             <div class="spinner-border text-danger" role="status">
@@ -10,7 +11,7 @@
             </div>
         </div>
         <ul>
-            <li v-for="(post, index) in posts" :key="index" class="list-unstyled"> 
+            <li v-for="(post, index) in getPosts" :key="index" class="list-unstyled"> 
             <div class="row">
                 <div class="col-md-1">
                     <div class="card card-body">
@@ -48,6 +49,9 @@
                     <button class="btn btn-warning">
                         <a href="#" @click.prevent="delPost(post.id)"> Delete </a>
                     </button>
+                     <button class="btn btn-warning">
+                        <a href="#" @click.prevent="showPost(post.id)"> Show </a>
+                    </button>
                 </div>
             </div> 
             <hr/>
@@ -58,33 +62,44 @@
 
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css';
-    import { mapState, mapActions, mapMutations} from "vuex" 
+    import { mapState, mapActions, mapMutations, mapGetters} from "vuex" 
 
     export default {
         name : "CartPostList",
-        props : {
-                msg : String 
-                },
-                
-        created(){
-            console.log("Mon Contacte ici")
+        beforeRouteLeave: (to, from, next) => {
+            console.log("route beforeEnter ....");
+            //this.url = to.path;
+            next();
         },
         computed:{
+            ...mapGetters(["getPosts", ]),
             ...mapState([ 'isLoading', 'posts']),
+        },
+
+        created(){
+            this.loadPosts();
         },
         methods: {
             ...mapMutations(['setSelectedPost', ]),
-            ...mapActions(['deletePost', ]),
+            ...mapActions(['deletePost','loadPosts' ]),
             // suppression post
             delPost(postId){
                 this.deletePost(postId);
-                this.$router.push("/")
-
+                // reload post
+                this.loadPosts()
+                this.$router.push({ name: "Home"})
             },
+            // get post to update
             getPost(post_id){
                 console.log("getPost : selected post = " + post_id)
                 this.setSelectedPost(post_id)
-                this.$router.push("/get/" + post_id)
+                this.$router.replace("/get/" + post_id)
+            },
+            // show post
+            showPost(post_id){
+                console.log("show : selected post = " + post_id)
+                this.setSelectedPost(post_id)
+                this.$router.push("/show/" + post_id)
             }
         }
 
