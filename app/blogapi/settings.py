@@ -35,7 +35,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '51.178.136.190' ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'atlass.fr' ]
 
 
 SITE_ID = 1
