@@ -2,6 +2,7 @@
     <div class="container">
         <div class="header">
             <a href="localhost:8080" class="btn btn-warning">
+                <i class="glyphicon glyphicon-plus-signe"></i>
             <router-link class="nav-link" to="/add"> Ajouter article </router-link></a>|
         </div>
         <div  v-if="isLoading" class="spinner">
@@ -76,7 +77,7 @@
             ...mapState([ 'isLoading', 'posts']),
         },
 
-        created(){
+        mounted(){
             this.loadPosts();
         },
         methods: {
