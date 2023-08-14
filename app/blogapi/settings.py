@@ -18,8 +18,6 @@ import environ
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = repertoire racine au meme niveau manage.py
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,6 +65,8 @@ INSTALLED_APPS = [
     'rest_auth', # new
     # local app 
     'blog.apps.BlogConfig',
+    # prosyndic
+    'prosyndic',
 ]
 
 
@@ -116,8 +116,8 @@ DATABASES = {
     "default" : {
         #'ENGINE': os.environ.get ( "SQL_ENGINE" , "django.db.backends.sqlite3" ),
         #'NAME': BASE_DIR / 'db.sqlite3',
-        #"ENGINE": env( "ENGINE"),
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": env( "ENGINE"),
+        #"ENGINE": "django.db.backends.postgresql",
         "NAME": env("DATABASE_NAME"),
         "USER": env("DATABASE_USER"),
         "PASSWORD": env("PASSWORD"), 

@@ -5,7 +5,7 @@ from django.shortcuts import render
 # postapi/views.py
 from rest_framework import generics, permissions
 from .models import BlogApi
-from .serilizers import PostApiSerializer 
+from .serializers import PostApiSerializer 
 from .permissions import IsAuthorOrReadOnly
 
 
