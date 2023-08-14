@@ -20,6 +20,14 @@ class Document(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
+    def create_relation(self, obj):
+        """
+        in : obj 
+        out : 
+        """
+        self.content_object = obj
+        self.save()
+
     def get_document_or_object(self, obj, distinction=None):
         """
         This function allows you to get pieces for a specific object
@@ -46,13 +54,11 @@ class Document(models.Model):
     def __unicode__(self):
         return self.title
     
-    def __str__(self) -> str:
+    def __str__(self):
         return self.title
     
     class Meta:
-        indexes = [
-            models.Index(fields=["content_type", "object_id"]),
-        ]
+        indexes = [ models.Index(fields=["content_type", "object_id"]), ]
    
 class Residence(models.Model):
     name = models.CharField(max_length=100)
@@ -103,16 +109,24 @@ class Appartement(models.Model):
 class Incident(models.Model):
     title = models.CharField(max_length=200)
     comment = models.TextField()
-    documents  = GenericRelation(Document)
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
- 
-    
+    # Piece jointe
+    documents  = GenericRelation(Document)
+
+    def add_document(self, piecej):
+        self.documents.add(piecej, bulk=False)
+        return True
+
+    def documents_join(self):
+        return self.documents.all()
+
 
     class Meta:
         verbose_name = _('Incident')
         verbose_name_plural = _('Incidents')
         ordering = ('-created_at',)
+        
     
     def __unicode__(self):
         return u'%s' % self.title
