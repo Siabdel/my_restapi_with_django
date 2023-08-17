@@ -1,0 +1,88 @@
+<template>
+   <!-- Navigation-->
+  <div class="container">
+    <div class="row">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container px-5">
+          <a class="navbar-brand" href="index.html">Prosyndic vue.js 2023</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                  <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                  <li class="nav-item"><router-link class="nav-link" to="/"> Residence </router-link> </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Portfolio</a>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
+                          <li><a class="dropdown-item" href="portfolio-overview.html">Portfolio Overview</a></li>
+                          <li><a class="dropdown-item" href="portfolio-item.html">Portfolio Item</a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+      </div>
+      </nav>
+    </div>
+
+    <div class="jumbotron">
+      <h1 class="display-4"> {{ msg }} </h1>
+    </div>
+    <hr> 
+    <br> <br>
+    <router-view> </router-view>
+  </div>
+
+</template>
+
+<script>
+
+export default {
+  name: 'App',
+  data(){
+    return {
+      msg : "PRO syndic Plateforme"
+    }
+  },
+
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+article {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: "Open Sans",Lato,sans-serif !important;
+    font-weight: 300;
+    color: #454c55;
+    -moz-font-feature-settings: "liga" 0;
+}
+:root {
+    --sash-size: 4px;
+}
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+
+</style>
