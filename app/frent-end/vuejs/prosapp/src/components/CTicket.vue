@@ -23,13 +23,16 @@
         </div>
         <div class="col-md-4">
             <button class="btn btn-warning">
-                <a href="#" @click.prevent=""> Update </a>
+                <router-link 
+                    :to="{'name': 'EditTicket', 'params': {'ticketId' : ticket.id }}"> 
+                    <h4 class="card-title"> Edit</h4>
+                </router-link>
             </button>
             <button class="btn btn-warning">
-                <a href="#" @click.prevent=""> Delete </a>
+                <a class="card-title" ref="#" @click.prevent="delTicket(ticket)">Delete</a>
             </button>
             <button class="btn btn-warning">
-                <a href="#" @click.prevent=""> Show </a>
+                <a class="card-title" href="#" @click.prevent=""> Show </a>
             </button>
         </div>
         <hr/>
@@ -38,11 +41,21 @@
 
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css';
+    import { mapActions, } from "vuex"
+
     export default {
         name : "CTicket",
         //props : ['id', 'title', 'created_at', 'comment',],
         props : {
             ticket : {},
+        },
+        methods:{
+            ...mapActions(["deleteTicket", ]),
+            delTicket(ticket){
+                this.deleteTicket(ticket.id)
+                // return to home
+                this.$router.push("/")
+            },
         }
     }
 </script>

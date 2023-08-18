@@ -31,10 +31,10 @@ class AppartementApiSerializer(serializers.ModelSerializer):
 class IncidentApiSerializer(serializers.ModelSerializer):
     # author = serializers.StringRelatedField(many=False, read_only=True)
     # author = serializers.SerializerMethodField()
-    author = UserSerializer()
+    # author = UserSerializer()
 
     #documents = DocumentApiSerializer()
-    documents = serializers.StringRelatedField(many=True, read_only=True)
+    # documents = serializers.StringRelatedField(many=True, read_only=True)
     
     def get_author(self, obj):
         return obj.author.username
@@ -43,7 +43,7 @@ class IncidentApiSerializer(serializers.ModelSerializer):
     class Meta :
         model = pro_models.Incident
         #fields = '__all__'
-        fields  = ('title', 'comment',  'created_at', 'author', 'documents',  )
+        fields  = ('id', 'title', 'comment',  'created_at', 'author', )
    
 # Proprietaire
 class ProprietaireApiSerializer(serializers.ModelSerializer):
