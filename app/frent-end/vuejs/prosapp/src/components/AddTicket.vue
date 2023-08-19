@@ -64,9 +64,9 @@ export default ({
         if(this.validateForm()){
           console.log("Ajout ticket  ...", this.ticket)
           this.addTicket(this.ticket)
-        }
           // return to home
           this.$router.push("/")
+        }
       },
 
       // check for valid email adress

@@ -8,7 +8,7 @@
       <div class="cardbox">
 
       </div>
-      <CTicket v-for="(ticket, index) in getTickets"  :key="index"
+      <CTicket v-for="(ticket, index) in tickets"  :key="index"
         :ticket="ticket" >
         <p>{{ticket.title}}</p>
       </CTicket>
@@ -20,7 +20,7 @@
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css'
     import CTicket from "../components/CTicket.vue"
-    import {  mapGetters, mapActions, } from "vuex" 
+    import {  mapState,  } from "vuex" 
 
     export default {
         name: "HomePage",
@@ -28,17 +28,13 @@
             msg:String,
         },
         components : { CTicket },
-    
-        mounted(){
-            // load  all Tickets
-            this.loadTickets();
-        },
         computed:{
-            ...mapGetters(['getTickets', 'isLoading',])
+            //...mapGetters(['getTickets', 'isLoading',])
+            ...mapState(['tickets', 'isLoading', ])
         },
-        methods: {
-            // load Tickets is now access as method
-            ...mapActions(['loadTickets', ]),
+        created() {
+        },
+        methods:{
         }
     }
 </script>

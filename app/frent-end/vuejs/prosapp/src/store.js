@@ -87,7 +87,7 @@ export default new Vuex.Store({
 
             commit("setIsLoading", true)
             // fetch 
-            axios.get(url,)
+            await axios.get(url,)
             .then(response => response.data)
             .then(data => {
                     commit("setIsLoading", false)
@@ -150,6 +150,7 @@ export default new Vuex.Store({
             .then( () =>  {
                 console.log("ticket updated !!" )
                 commit("setIsLoading", false)
+                commit("setSelectedTicket", { ticket : ticket })
             })
             .catch( (error) => {
                 console.log("Erreur ticket not updated!!", ticket.title)

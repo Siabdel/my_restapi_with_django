@@ -13,6 +13,7 @@
 <script>
 
 import CHeader from "./views/CHeader.vue"
+import {mapActions, } from "vuex" 
 
 export default {
   name: 'App',
@@ -22,6 +23,13 @@ export default {
       msg : "PRO syndic Plateforme"
     }
   },
+  created(){
+    this.loadTickets()
+  },
+  methods:{
+    // load Tickets is now access as method
+    ...mapActions(['loadTickets', ]),
+  }
 
 }
 </script>
