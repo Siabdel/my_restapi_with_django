@@ -10,8 +10,21 @@ from django.conf import settings
 
 now = django.utils.timezone.now()
 
-
-# Create your models here.
+ 
+# Create your modAscenseur
+Categorie_choose = [
+    "Boites aux lettres",
+    "Cage d'escalier",
+    "Interphone",
+    "Espace vert",
+    "Local",
+    "Garage",
+    "Cave",
+    "Pocine",
+    "JArdin",
+    "Pelouse",
+    "Autre incidentels",
+]
 class Document(models.Model):
     title = models.CharField(max_length = 100)
     jfile = models.FileField(upload_to='upload/', blank=True, null=True)
@@ -76,6 +89,20 @@ class Residence(models.Model):
     def __str__(self):
         return u'%s' % self.name
 
+class Lot(models.Model):
+    residence = models.ForeignKey(Residence, on_delete=models.CASCADE)
+    numero = models.SmallIntegerField()
+    nb_appartement = models.SmallIntegerField()
+    photo = models.ImageField(upload_to="media/")
+    class Meta:
+        verbose_name = _('Lot')
+        ordering = ('numero',)
+    
+    def __unicode__(self):
+        return u'%s' % self.numero
+    def __str__(self):
+        return u'%s' % self.numero
+
 class Proprietaire(models.Model):
     name = models.CharField(max_length=100)
 
@@ -107,6 +134,7 @@ class Appartement(models.Model):
 
 
 class Incident(models.Model):
+
     title = models.CharField(max_length=200)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,36 +1,49 @@
 <template>
   <div class="container">
-    <div class="jumbotron">
-      <img alt="Vue logo" src="../assets/koutoubia.jpg"/>
-      <p class=""> Menara Marrakech</p>
-      <hr>
-      <h3> Mes tickets encours ... </h3>
-      <div class="cardbox">
-
-      </div>
-      <CTicket v-for="(ticket, index) in tickets"  :key="index"
-        :ticket="ticket" >
-        <p>{{ticket.title}}</p>
-      </CTicket>
+    <div class="row">
+        <div class="col-md">
+          <div class="jumbotron">
+            <img alt="Vue logo" src="../assets/koutoubia.jpg"/>
+            <p class=""> Menara Marrakech *** </p>
+            <hr>
+          </div>
+        </div>
+        <div class="col-md">
+          <h3>Menu</h3>
+          <ul>
+            <li class="group-list-item">
+              <router-link class="nav-link" to="/tlist"> 
+                Liste des Incidents
+              </router-link> 
+            </li>
+             <li class="group-list-item">
+              <router-link class="nav-link" to="/add"> 
+                Enregistre un ticket sur un incident constaté
+              </router-link> 
+            </li>
+             <li class="group-list-item">
+              <router-link class="nav-link" to="/"> 
+                Appel de fond
+              </router-link> 
+            </li>
+             <li class="group-list-item">
+              <router-link class="nav-link" to="/"> 
+                les documents
+              </router-link> 
+            </li>
+          </ul>
+        </div>
     </div>
+   
   </div>
 </template>
 
 
 <script>
-    import 'bootstrap/dist/css/bootstrap.min.css'
-    import CTicket from "../components/CTicket.vue"
-    import {  mapState,  } from "vuex" 
-
     export default {
         name: "HomePage",
         props : {
             msg:String,
-        },
-        components : { CTicket },
-        computed:{
-            //...mapGetters(['getTickets', 'isLoading',])
-            ...mapState(['tickets', 'isLoading', ])
         },
         created() {
         },
